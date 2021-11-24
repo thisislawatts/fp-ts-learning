@@ -40,18 +40,18 @@ describe("Reader", () => {
       lowerBound: number;
     }
 
-    const f =
+    const a =
       (b: boolean): Reader<Dependencies, string> =>
       (deps) =>
         b ? deps.i18n.true : deps.i18n.false;
 
-    const g = (n: number): Reader<Dependencies, string> =>
+    const b = (n: number): Reader<Dependencies, string> =>
       pipe(
         ask<Dependencies>(),
-        chain(({ lowerBound }) => f(n > lowerBound))
+        chain(({ lowerBound }) => a(n > lowerBound))
       );
 
-    const h = (s: string): Reader<Dependencies, string> => g(s.length + 1);
+    const c = (s: string): Reader<Dependencies, string> => b(s.length + 1);
 
     const deps: Dependencies = {
       i18n: {
@@ -61,6 +61,6 @@ describe("Reader", () => {
       lowerBound: 200,
     };
 
-    expect(h("fo")(deps)).toBe("original string");
+    expect(c("fo")(deps)).toBe("original string");
   });
 });
